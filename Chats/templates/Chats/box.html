@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/chat.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/header.css" %}">
+    <style>
+        .test{
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+
+}
+#test2 {
+    display: block;
+	position: relative;
+	padding: 10px 0;
+	width: 130px;
+	margin: 20px 0;
+	border-radius: 25px;
+	border: none;
+	font-size: 16px;
+	letter-spacing: 0.2px;
+	font-weight: 500;
+	background-color: #4069E2;
+	color: #E6EBEE;
+    text-align: center;
+
+}
+#test2:focus {
+	display: none;
+}
+
+#test2:hover {
+	transform: scale(1.03);
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 28px;
+  text-align: center;
+  text-decoration: none;
+  /*display: inline-block;*/
+  font-size: 16px;
+  /*margin: 4px 2px;*/
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.history{
+    max-width: 60px;
+    margin-left: 20px;
+    border-radius: 50%;
+    height: 60px;
+    float: right;
+}
+a{
+    text-decoration: none;
+
+}
+
+.username{
+    float: right;
+}
+    </style>
+</head>
+<body>
+<div class="header">
+
+  <div class="header-right">
+    <a class="active" href="{% url "Chats:test" %}">Home</a>
+        <a href="{% url "Account:profile_detail" %}">Profile</a>
+        <a href="{% url "Account:logout" %}">Logout</a>
+  </div>
+    </div>
+{% for i in last %}
+    {% if  i.to == profile %}
+        {% if i.from_user in friends %}
+            <a href="{% url "Chats:chat_box" num=i.from_user.id %}">
+                    <div class="container">
+                  <img class="history" src="{{ i.from_user.photo.url }}" alt="Avatar" style="width:100%; float: right">
+                  <span class="username">{{ i.from_user.username_id }}</span>
+
+                  <p style="text-align: center">{{ i.text }}</p>
+                        <!--<a class="button button1" href="{#% url "Chats:chat_box" num=i.from_user.id %#}" >Message</a>-->
+
+                 <!-- <a href="{#% url "Chats:chat_box" num=i.from_user.id %#}">Message</a>-->
+                  <span class="time-right">{{ i.time|date:"H:i" }}</span>
+                </div>
+            </a>
+        {% else %}
+                <div class="container">
+              <img class="history" src="{{ i.from_user.photo.url }}" alt="Avatar" style="width:100%; float: right">
+              <span class="username">{{ i.from_user.username_id }}</span>
+              <p style="text-align: center">{{ i.text }}</p>
+              <!-- <div id="buttons">
+                    <a class="test" id="test2" style="background-color: red" href="{#% url "Chats:add" num=i.from_user.id %#}" >Follow</a>
+
+                </div>-->
+              <!--<a href="{#% url "Chats:add" num=i.from_user.id %#}">Fallow</a>-->
+                    <a class="button button1" href="{% url "Chats:add" num=i.from_user.id %}" >Follow</a>
+              <span class="time-right">{{ i.time|date:"H:i" }}</span>
+            </div>
+        {% endif %}
+    {% else %}
+        <a href="{% url "Chats:chat_box" num=i.to.id %}">
+            <div class="container">
+              <img src="{{ i.to.photo.url }}" alt="Avatar" class="right" style="width:100%;">
+              <span class="username">{{ i.to.username_id }}</span>
+              <p style="text-align: center">{{ i.text }}</p>
+              <span class="time-right">{{ i.time|date:"H:i" }}</span>
+            </div>
+        </a>
+    {% endif %}
+{% endfor %}
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/header.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/chat.css" %}">
+</head>
+<body>
+<div class="header">
+
+  <div class="header-right">
+    <a class="active" href="{% url "Chats:test" %}">Home</a>
+        <a href="{% url "Account:profile_detail" %}">Profile</a>
+        <a href="{% url "Chats:box" %}">Messages</a>
+        <a href="{% url "Account:logout" %}">Logout</a>
+  </div>
+    </div>
+
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="button2">Send</button>
+
+</form>
+{% for i in texts %}
+    {% if i.from_user == person %}
+            <div class="container">
+          <img src="{{ i.from_user.photo.url }}" alt="Avatar" style="width:100%;">
+          <p>{{ i.text }}</p>
+          <span class="time-right">{{ i.time|date:"H:i" }}</span>
+        </div>
+    {% else %}
+        <div class="container darker">
+          <img src="{{ i.from_user.photo.url }}" alt="Avatar" class="right" style="width:100%;">
+          <p>{{ i.text }}</p>
+          <span class="time-left">{{ i.time|date:"H:i" }}</span>
+        </div>
+    {% endif %}
+{% endfor %}
+<div class="person-photo">
+    <img  src="{{ person.photo.url }}" alt="{{ person.username_id }}">
+    <p>{{ person.username_id }}</p>
+</div>
+</body>
+</html>

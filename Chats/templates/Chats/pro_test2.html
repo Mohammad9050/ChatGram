@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/header.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/search_test.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/formstyle.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/card.css" %}">
+</head>
+<body>
+    <div class="header">
+<div id="paginator" style="background-color: red">
+      {% for page in users.paginator.page_range %}
+          <li><a href="?page={{ page }}">{{ page }}</a></li>
+      {% endfor %}
+  </div>
+  <div class="header-right">
+    <a class="active" href="{% url "Chats:test" %}">Home</a>
+      {% if user.is_authenticated %}
+        <a href="{% url "Account:profile_detail" %}">Profile</a>
+        <a href="{% url "Chats:box" %}">Messages</a>
+        <a href="{% url "Account:logout" %}">Logout</a>
+
+      {% else %}
+          <a href="{% url "Account:login" %}">Sign in</a>
+      {% endif %}
+
+
+{#  {% for i in users %}#}
+{#      {{ i }}#}
+{#  {% endfor %}#}
+  </div>
+    </div>
+        <form action="" method="get">
+            <div class="wrap">
+                <div class="search">
+                    {% include "Chats/_home.html" with field=find.name %}
+                    <button type="submit" class="searchButton">Search</button>
+                </div>
+            </div>
+             <div class="box" >
+                {% include "Chats/_home.html" with field=find.age %}
+            </div>
+        </form>
+{% for i in users %}
+
+    {% if i in friends %}
+            <div id="card" style="float: left">
+            <h1 style="background-color: #85FFBD;
+background-image: -webkit-linear-gradient(90deg, #85FFBD 0%, #FFFB7D 100%);
+background-image: -moz-linear-gradient(90deg, #85FFBD 0%, #FFFB7D 100%);
+background-image: -o-linear-gradient(90deg, #85FFBD 0%, #FFFB7D 100%);
+background-image: linear-gradient(90deg, #85FFBD 0%, #FFFB7D 100%);
+">{{ i.username_id }}</h1>
+            <div class="image-crop">
+                <img id="avatar" src="{{ i.photo.url }}" alt="avatar">
+            </div>
+            <div id="bio">
+
+            </div>
+            <div id="stats">
+                <div class="col">
+                    <p class="stat">{{ i.age }}</p>
+                    <p class="label">Age</p>
+                </div>
+                        <div class="col">
+                    <p class="stat">{{ i.follower.count }}</p>
+                    <p class="label">Followers</p>
+                </div>
+                        <div class="col">
+                    <p class="stat">{{ i.following.count }}</p>
+                    <p class="label">Following</p>
+                </div>
+            </div>
+            <div id="buttons">
+                <a class="test" id="test2" style="background-color: red" href="{% url "Chats:remove" num=i.id %}" >Unfollow</a>
+                <a class="test" id="test2" href="{% url "Chats:chat_box" num=i.id %}">Message</a>
+            </div>
+        </div>
+    {% else %}
+        <div id="card" style="float: left;box-shadow: 2px 2px 5px #FF9A8B; " >
+            <h1 style="background-color: #FF9A8B;
+background-image: -webkit-linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+background-image: -moz-linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+background-image: -o-linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+">{{ i.username_id }}</h1>
+            <div class="image-crop">
+                <img id="avatar" src="{{ i.photo.url }}" alt="avatar">
+            </div>
+            <div id="bio">
+
+            </div>
+            <div id="stats">
+                <div class="col">
+                    <p class="stat">{{ i.age }}</p>
+                    <p class="label">Age</p>
+                </div>
+                        <div class="col">
+                    <p class="stat">{{ i.follower.count }}</p>
+                    <p class="label">Followers</p>
+                </div>
+                        <div class="col">
+                    <p class="stat">{{ i.following.count }}</p>
+                    <p class="label">Following</p>
+                </div>
+            </div>
+            <div id="buttons">
+                <a class="test" id="test2" href="{% url "Chats:add" num=i.id %}">Follow</a>
+                <a class="test dis" id="test2" style="background-color: #6c8176" href="{% url "Chats:chat_box" num=i.id %}">Message</a>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+</body>
+</html>

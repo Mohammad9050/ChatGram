@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/header.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "Accounts/css/next.css" %}">
+</head>
+<body>
+ <div class="header">
+
+          <div class="header-right">
+            <a class="active" href="{% url "Chats:test" %}">Home</a>
+                <a href="{% url "Chats:box" %}">Messages</a>
+                <a href="{% url "Account:logout" %}">Logout</a>
+          </div>
+    </div>
+    <ul>
+        <li>Username  = {{ profile1.username_id}}</li>
+        <li>Email = {{ profile1.user.email }}</li>
+        <li>Age = {{ profile1.age }}</li>
+{#        <li>Gender = {{ profile1.get_gender_display }}</li>#}
+    </ul><br>
+    <img src="{{ profile1.photo.url }}" alt="avatar" style="border-radius: 50%;width: 200px;
+    height: 200px;">
+<form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+                {{ profile.photo}}
+    <button type="submit" class="btn1 button1">Save</button>
+
+</form>
+</body>
+</html>
